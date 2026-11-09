@@ -18,13 +18,17 @@ jobs:
     - name: 2. Menyiapkan Lingkungan Python 3.11
       uses: actions/setup-python@v5
       with:
-        python-version: "3.14"
+        python-version: "3.11"
 
     - name: 3. Menginstal Dependensi Proyek
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: 4. Menjalankan Automated Unit Testing (Pytest)
+    - name: 4. Memeriksa Kualitas Kode (Linter Flake8)
+      run: |
+        flake8 models/ controllers/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+    - name: 5. Menjalankan Automated Unit Testing (Pytest)
       run: |
         python -m pytest -v
